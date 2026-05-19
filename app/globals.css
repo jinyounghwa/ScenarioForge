@@ -4,20 +4,25 @@
 
 @layer base {
   html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-slate-50 text-gray-900;
+    @apply bg-slate-50 text-gray-900 transition-colors;
+  }
+
+  .dark body {
+    @apply bg-slate-900 text-gray-100;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-white rounded-2xl border border-gray-200/60 shadow-sm;
+    @apply bg-white dark:bg-slate-800 rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-sm;
   }
 
   .card-hover {
@@ -38,38 +43,83 @@
   }
 
   .btn-secondary {
-    @apply px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-medium text-sm
-           hover:bg-gray-200 active:bg-gray-300
+    @apply px-5 py-2.5 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium text-sm
+           hover:bg-gray-200 dark:hover:bg-slate-600 active:bg-gray-300 dark:active:bg-slate-500
            transition-colors;
   }
 
   .btn-danger {
-    @apply px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium
-           hover:bg-red-100 transition-colors;
+    @apply px-4 py-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-sm font-medium
+           hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors;
   }
 
   .input-field {
-    @apply w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm
+    @apply w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm
+           bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100
            focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400
-           placeholder-gray-400 transition;
+           placeholder-gray-400 dark:placeholder-gray-500 transition;
   }
 
   .section-title {
-    @apply text-lg font-bold text-gray-900 flex items-center gap-2;
+    @apply text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2;
   }
 }
 
 /* 스크롤바 */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
 
 /* 애니메이션 */
 .fade-in {
   animation: fadeIn 0.2s ease-out;
 }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

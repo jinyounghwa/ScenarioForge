@@ -1,68 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
+import { readJsonFile, writeJsonFile } from '@/lib/data'
 import { Character } from '@/types'
 import { randomUUID } from 'crypto'
 
-const DATA_DIR = path.join(process.cwd(), 'data')
-const CHARACTERS_FILE = path.join(DATA_DIR, 'characters.json')
-
-async function ensureDataDir() {
-  try {
-    await fs.access(DATA_DIR)
-  } catch {
-    await fs.mkdir(DATA_DIR, { recursive: true })
-  }
-}
-
-async function getCharacters(): Promise<Character[]> {
-  await ensureDataDir()
-  try {
-    const data = await fs.readFile(CHARACTERS_FILE, 'utf-8')
-    return JSON.parse(data)
-  } catch {
-    return []
-  }
-}
-
-async function saveCharacters(characters: Character[]) {
-  await ensureDataDir()
-  await fs.writeFile(CHARACTERS_FILE, JSON.stringify(characters, null, 2))
-}
-
 export async function GET() {
-  const characters = await getCharacters()
+  const characters = await readJsonFile<Character>('characters.json')
   return NextResponse.json({ characters })
 }
 
 export async function POST(request: NextRequest) {
-  const { name, color } = await request.json()
+  const { name, color, description } = await request.json()
 
   if (!name?.trim()) {
-    return NextResponse.json(
-      { error: '인물명은 필수입니다' },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: '인물명은 필수입니다' }, { status: 400 })
   }
 
-  const characters = await getCharacters()
+  const characters = await readJsonFile<Character>('characters.json')
 
-  if (characters.some((c) => c.name === name)) {
-    return NextResponse.json(
-      { error: '이미 존재하는 인물입니다' },
-      { status: 400 }
-    )
+  if (characters.some((c) => c.name === name.trim())) {
+    return NextResponse.json({ error: '이미 존재하는 인물입니다' }, { status: 400 })
   }
 
   const newCharacter: Character = {
     id: randomUUID(),
-    name,
+    name: name.trim(),
     color: color || '#FF6B6B',
+    description: description || '',
     createdAt: new Date().toISOString(),
   }
 
   characters.push(newCharacter)
-  await saveCharacters(characters)
+  await writeJsonFile('characters.json', characters)
 
   return NextResponse.json(newCharacter, { status: 201 })
 }

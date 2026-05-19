@@ -5,12 +5,16 @@
   font-size: 0.95rem;
   color: #1f2937;
 }
+.dark .ProseMirror {
+  color: #e2e8f0;
+}
+
 .ProseMirror > :first-child { margin-top: 0; }
 .ProseMirror > :last-child  { margin-bottom: 0; }
 .ProseMirror p        { margin: 0.5em 0; }
 .ProseMirror h1       { font-size: 1.75rem; font-weight: 700; margin: 1em 0 0.5em; }
 .ProseMirror h2       { font-size: 1.4rem;  font-weight: 600; margin: 0.8em 0 0.4em; }
-.ProseMirror h3       { font-size: 1.15rem;  font-weight: 600; margin: 0.6em 0 0.3em; }
+.ProseMirror h3       { font-size: 1.15rem; font-weight: 600; margin: 0.6em 0 0.3em; }
 .ProseMirror ul       { list-style: disc; padding-left: 1.5rem; margin: 0.5em 0; }
 .ProseMirror ol       { list-style: decimal; padding-left: 1.5rem; margin: 0.5em 0; }
 .ProseMirror li       { margin: 0.2em 0; }
@@ -22,11 +26,19 @@
   border-radius: 0 0.5rem 0.5rem 0;
   color: #4b5563;
 }
+.dark .ProseMirror blockquote {
+  background: #1e293b;
+  color: #94a3b8;
+}
 .ProseMirror code {
   background: #f3f4f6;
   padding: 0.1em 0.35em;
   border-radius: 0.25rem;
   font-size: 0.875em;
+}
+.dark .ProseMirror code {
+  background: #334155;
+  color: #e2e8f0;
 }
 .ProseMirror pre {
   background: #1e293b;
@@ -38,6 +50,7 @@
 }
 .ProseMirror pre code { background: none; color: inherit; padding: 0; }
 .ProseMirror hr { border: none; border-top: 2px solid #e5e7eb; margin: 1.5em 0; }
+.dark .ProseMirror hr { border-top-color: #475569; }
 .ProseMirror a  { color: #6366f1; text-decoration: underline; }
 
 /* Mention */
@@ -51,6 +64,11 @@
   border: 1px solid #c7d2fe;
   cursor: default;
 }
+.dark .mention {
+  background: #312e81;
+  color: #a5b4fc;
+  border-color: #4338ca;
+}
 
 /* Mention popup */
 .mention-popup {
@@ -60,9 +78,13 @@
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   box-shadow: 0 12px 28px -6px rgba(0,0,0,0.12), 0 4px 10px -4px rgba(0,0,0,0.06);
-  max-width: 200px;
+  max-width: 220px;
   overflow: hidden;
   animation: popIn 0.12s ease-out;
+}
+.dark .mention-popup {
+  background: #1e293b;
+  border-color: #334155;
 }
 @keyframes popIn {
   from { opacity: 0; transform: translateY(-4px) scale(0.98); }
@@ -81,6 +103,28 @@
   align-items: center;
   gap: 6px;
   transition: background 0.1s;
+  color: #1f2937;
+}
+.dark .mention-item {
+  background: #1e293b;
+  color: #e2e8f0;
 }
 .mention-item:hover     { background: #f3f4f6; }
 .mention-item.selected  { background: #eef2ff; color: #4338ca; }
+.dark .mention-item:hover     { background: #334155; }
+.dark .mention-item.selected  { background: #312e81; color: #a5b4fc; }
+
+/* Toolbar button for dark mode */
+.toolbar-btn {
+  @apply px-2 py-1 rounded-md text-sm font-medium transition-colors;
+  @apply text-gray-500 hover:bg-gray-100 hover:text-gray-800;
+}
+.toolbar-btn.active {
+  @apply bg-indigo-600 text-white;
+}
+.dark .toolbar-btn {
+  @apply text-gray-400 hover:bg-slate-700 hover:text-gray-200;
+}
+.dark .toolbar-btn.active {
+  @apply bg-indigo-500 text-white;
+}
